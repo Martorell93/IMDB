@@ -1,5 +1,7 @@
 //Import clase Professional
 import { Professional } from "./professional";
+import { Movie } from './movie';
+import { IMDB } from './imdb';
 
 //Declaración objetos de la clase Professional
 let persona1:Professional = new Professional ("Juan Mendoza", 45,
@@ -22,3 +24,15 @@ persona2.printAll();
 persona3.printAll();
 persona4.printAll();
 persona5.printAll();
+
+
+let pelicula1:Movie=new Movie ("Casablanca",1942,"Estados Unidos");
+pelicula1.showMovie();
+
+let pelicula2:Movie=new Movie ("Benhur",1959,"Estados Unidos");
+let pelicula3:Movie=new Movie ("Acción Mutante",1993,"España");
+
+let imdb:IMDB=new IMDB([pelicula1,pelicula2,pelicula3]);
+for(let peli of imdb.movies) {
+    peli.showMovie();
+}
