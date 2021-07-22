@@ -39,17 +39,9 @@ for(let peli of myImdb.movies) {
     peli.showMovie();
 }
 
-//Probando el grabado de datos en un archivo
-let data:string=JSON.stringify(myImdb);
+//Convertir a JSON el objeto myImdb
+let data:string=JSON.stringify(myImdb, null, 2);
 console.log(data);
-fs.writeFileSync("datosIMDB.txt",data);
 
-//Probando la lectura de datos
-let dataLeido:string=fs.readFileSync("datosIMDB.txt","utf8");
-let imdbLeido:IMDB=JSON.parse(dataLeido);
-
-for (let i=0;i<imdbLeido.movies.length;i++) {
-    elemento=new Movie(elemento["title"],elemento["releaseYear"],elemento["nationality"]);
-}
-
-console.log(imdbLeido.movies[0].showMovie());
+//Guardar el objeto en un fichero.json
+fs.writeFileSync("imdbBBDD.json",data);
