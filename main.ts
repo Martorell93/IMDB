@@ -3,6 +3,8 @@ import { Professional } from "./professional";
 import { Movie } from './movie';
 import { IMDB } from './imdb';
 
+var fs=require("fs");//npm install --save-dev @types/node
+
 //Declaración objetos de la clase Professional
 let persona1:Professional = new Professional ("Juan Mendoza", 45,
 "Masculino", 90, 1.88, "Marrón", "Verdes", "Hispano", false,
@@ -32,7 +34,22 @@ pelicula1.showMovie();
 let pelicula2:Movie=new Movie ("Benhur",1959,"Estados Unidos");
 let pelicula3:Movie=new Movie ("Acción Mutante",1993,"España");
 
-let imdb:IMDB=new IMDB([pelicula1,pelicula2,pelicula3]);
-for(let peli of imdb.movies) {
+let myImdb:IMDB=new IMDB([pelicula1,pelicula2,pelicula3]);
+for(let peli of myImdb.movies) {
     peli.showMovie();
 }
+
+//Probando el grabado de datos en un archivo
+let data:string=JSON.stringify(myImdb);
+console.log(data);
+fs.writeFileSync("datosIMDB.txt",data);
+
+//Probando la lectura de datos
+let dataLeido:string=fs.readFileSync("datosIMDB.txt","utf8");
+let imdbLeido:IMDB=JSON.parse(dataLeido);
+
+for (let i=0;i<imdbLeido.movies.length;i++) {
+    elemento=new Movie(elemento["title"],elemento["releaseYear"],elemento["nationality"]);
+}
+
+console.log(imdbLeido.movies[0].showMovie());
