@@ -28,28 +28,20 @@ persona4.printAll();
 persona5.printAll();
 
 
-let pelicula1:Movie=new Movie ("Casablanca",1942,"Estados Unidos");
+let pelicula1:Movie=new Movie ("Casablanca",1942,"Estados Unidos","drama");
 pelicula1.showMovie();
 
-let pelicula2:Movie=new Movie ("Benhur",1959,"Estados Unidos");
-let pelicula3:Movie=new Movie ("Acción Mutante",1993,"España");
+let pelicula2:Movie=new Movie ("Benhur",1959,"Estados Unidos","histórico");
+let pelicula3:Movie=new Movie ("Acción Mutante",1993,"España","comedia");
 
 let myImdb:IMDB=new IMDB([pelicula1,pelicula2,pelicula3]);
 for(let peli of myImdb.movies) {
     peli.showMovie();
 }
 
-//Probando el grabado de datos en un archivo
-let data:string=JSON.stringify(myImdb);
-console.log(data);
-fs.writeFileSync("datosIMDB.txt",data);
+//Probando lectura y escritura de datos
+// myImdb.escribirEnFicheroJSON("mifichero.json");
+// let imdbRecuperado:IMDB=IMDB.obtenerInstanciaIMDB("mifichero.json");
+// console.log(imdbRecuperado);
 
-//Probando la lectura de datos
-let dataLeido:string=fs.readFileSync("datosIMDB.txt","utf8");
-let imdbLeido:IMDB=JSON.parse(dataLeido);
-
-for (let i=0;i<imdbLeido.movies.length;i++) {
-    elemento=new Movie(elemento["title"],elemento["releaseYear"],elemento["nationality"]);
-}
-
-console.log(imdbLeido.movies[0].showMovie());
+myImdb.addMovie();
