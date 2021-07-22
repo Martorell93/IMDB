@@ -45,3 +45,9 @@ for(let peli of myImdb.movies) {
 // console.log(imdbRecuperado);
 
 myImdb.addMovie();
+//Convertir a JSON el objeto myImdb
+// let data:string=JSON.stringify(myImdb, null, 2);
+// console.log(data);
+
+// //Guardar el objeto en un fichero.json
+// fs.writeFileSync("imdbBBDD.json",data);
