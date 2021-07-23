@@ -12,8 +12,25 @@ export class IMDB {
     }
 
     public escribirEnFicheroJSON(nombreFichero:string) {
-        let data:string=JSON.stringify(this);
+        
+        //Método Nacho
+        // let data:string=JSON.stringify(this);
+        // fs.writeFileSync(nombreFichero,data);
+
+        //Método Jaime
+        let data:string=JSON.stringify(this, null, 2);
         fs.writeFileSync(nombreFichero,data);
+    }
+
+    public static obtenerInstanciaIMDB(nombreFichero:string):IMDB {
+        let data:string=fs.readFileSync(nombreFichero,"utf8");
+        let dataJSON:IMDB=JSON.parse(data);
+
+        let pelis:Movie[]=[];
+        for (let i=0;i<dataJSON.movies.length;i++) {
+            pelis.push(new Movie(dataJSON.movies[i]["title"],dataJSON.movies[i]["releaseYear"],dataJSON.movies[i]["nationality"],dataJSON.movies[i]["genre"]));    
+        }
+        return new IMDB(pelis);
     }
 
     public addMovie() {
@@ -29,28 +46,26 @@ export class IMDB {
                 rl.question("What is the nationality ? ", function(answer3:string) {
                     rl.question("What is the genre ? ", function(answer4:string) {
                     let pelicula:Movie=new Movie(answer1,answer2,answer3,answer4);
-                    let peliJSON:string=JSON.stringify(pelicula);
+                    
+                    //Método Nacho
+                    // let peliJSON:string=JSON.stringify(pelicula);
+                    // let miImbd:IMDB=IMDB.obtenerInstanciaIMDB("imdbBBDD.json");
+                    // let imdbJSON:string=JSON.stringify(miImbd);
+                    // let strJoin:string=imdbJSON.split("]}")[0] + "," + peliJSON + "]}";
+
+                    //Método Jaime
                     let miImbd:IMDB=IMDB.obtenerInstanciaIMDB("imdbBBDD.json");
-                    let imdbJSON=JSON.stringify(miImbd);
-                    let strJoin:string=imdbJSON.split("]}")[0] + "," + peliJSON + "]}";
-                    fs.writeFileSync("imdbBBDD.json",strJoin);                                      
+                    miImbd.movies.push(pelicula);
+                    let imdbJSON:string=JSON.stringify(miImbd, null, 2);
+
+                    fs.writeFileSync("imdbBBDD.json",imdbJSON);                                      
                     rl.close();
+                    console.log("La nueva pelicula creada se ha almacenado en el archivo: imdbBBDD.json");
                     }); 
                 });               
             });
         });          
     
-        this.escribirEnFicheroJSON("imdbBBDD.json");        
-    }
-
-    public static obtenerInstanciaIMDB(nombreFichero:string):IMDB {
-        let data:string=fs.readFileSync(nombreFichero,"utf8");
-        let dataJSON:IMDB=JSON.parse(data);
-
-        let pelis:Movie[]=[];
-        for (let i=0;i<dataJSON.movies.length;i++) {
-            pelis.push(new Movie(dataJSON.movies[i]["title"],dataJSON.movies[i]["releaseYear"],dataJSON.movies[i]["nationality"],dataJSON.movies[i]["genre"]));    
-        }
-        return new IMDB(pelis);
+        this.escribirEnFicheroJSON("imdbBBDD.json");
     }
 }
